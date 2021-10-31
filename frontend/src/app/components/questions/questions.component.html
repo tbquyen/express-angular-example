@@ -1,0 +1,155 @@
+<div class="container mt-3">
+  <table class="table table-sm table-bordered border-primary">
+    <thead class="table-dark">
+      <tr>
+        <th class="index dropdown text-center">
+          <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown" aria-expanded="false"></i>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><button type="button" class="dropdown-item" (click)="insertDialog()"><i
+                  class="bi bi-plus-lg"></i> New</button></li>
+            <li><label for="pickedFile" class="dropdown-item"><i
+                  class="bi bi-upload"></i> Upload</label></li>
+          </ul>
+        </th>
+        <th colspan="3">
+          Questions
+        </th>
+      </tr>
+    </thead>
+    <tbody class="accordion-item" *ngFor="let question of questions; let i = index">
+      <tr class="accordion-header">
+        <th rowspan="7" class="text-center">{{i + 1}}</th>
+        <td colspan="2">
+          <i class="bi bi-chevron-expand pointer" data-bs-toggle="collapse" [attr.data-bs-target]="'#A'+i">
+          </i>{{question.question}}
+        </td>
+        <td colspan="1" class="dropdown index text-center">
+          <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown" aria-expanded="false"></i>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><button type="button" class="dropdown-item" (click)="updateDialog(question.id)"><i
+                  class="bi bi-pen-fill"></i> Update</button></li>
+            <li><button type="button" class="dropdown-item" (click)="deleteQuestion(question.id)"><i
+                  class="bi bi-x-lg"></i> Delete</button></li>
+          </ul>
+        </td>
+      </tr>
+      <tr [id]="'A'+i" class="accordion-collapse collapse">
+        <th class="menu-ans">Anser A<i class="bi bi-check-all color-blue" *ngIf="'A' === question.ans"></i></th>
+        <td colspan="2">{{question.ans1}}</td>
+      </tr>
+      <tr [id]="'A'+i" class="accordion-collapse collapse">
+        <th>Anser B<i class="bi bi-check-all color-blue" *ngIf="'B' === question.ans"></i></th>
+        <td colspan="2">{{question.ans2}}</td>
+      </tr>
+      <tr [id]="'A'+i" class="accordion-collapse collapse">
+        <th>Anser C<i class="bi bi-check-all color-blue" *ngIf="'C' === question.ans"></i></th>
+        <td colspan="2">{{question.ans3}}</td>
+      </tr>
+      <tr [id]="'A'+i" class="accordion-collapse collapse">
+        <th>Anser D<i class="bi bi-check-all color-blue" *ngIf="'D' === question.ans"></i></th>
+        <td colspan="2">{{question.ans4}}</td>
+      </tr>
+      <tr [id]="'A'+i" class="accordion-collapse collapse">
+        <th>Duration</th>
+        <td colspan="2">{{question.duration}}s</td>
+      </tr>
+      <tr [id]="'A'+i" class="accordion-collapse collapse">
+        <th>Explanation</th>
+        <td colspan="2">{{question.explanation}}s</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<input hidden type="file" id="pickedFile" #pickedFile (change)="onPicked(pickedFile)">
+
+<!-- Modal -->
+<button type="button" data-bs-toggle="modal" data-bs-target="#editModal" hidden #openModal></button>
+<form autocomplete="off" [formGroup]="fQuestion" (ngSubmit)="onSubmit()">
+  <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Question</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal
+            tabindex="-1"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row mb-3">
+            <label for="categories" class="col-sm-2 col-form-label col-form-label-sm">Categories</label>
+            <div class="col-sm-10">
+              <input type="input" class="form-control form-control-sm" id="categories" formControlName="categories">
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['categories'].errors?.messages">{{msg}}</span>
+          </div>
+          <div class="form-group row mb-3">
+            <label for="question" class="col-sm-2 col-form-label col-form-label-sm">Question</label>
+            <div class="col-sm-10">
+              <textarea rows="1" type="input" class="form-control form-control-sm" id="question"
+                formControlName="question"></textarea>
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['question'].errors?.messages">{{msg}}</span>
+          </div>
+          <div class="form-group row mb-3">
+            <label for="ans1" class="col-sm-2 col-form-label col-form-label-sm">
+              <input class="form-check-input" value="A" type="radio" formControlName="ans"> Anser A</label>
+            <div class="col-sm-10">
+              <textarea rows="1" type="input" class="form-control form-control-sm" id="ans1" formControlName="ans1"></textarea>
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['ans1'].errors?.messages">{{msg}}</span>
+          </div>
+          <div class="form-group row mb-3">
+            <label for="ans2" class="col-sm-2 col-form-label col-form-label-sm">
+              <input class="form-check-input" value="B" type="radio" formControlName="ans"> Anser B</label>
+            <div class="col-sm-10">
+              <textarea rows="1" type="input" class="form-control form-control-sm" id="ans2" formControlName="ans2"></textarea>
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['ans2'].errors?.messages">{{msg}}</span>
+          </div>
+          <div class="form-group row mb-3">
+            <label for="ans3" class="col-sm-2 col-form-label col-form-label-sm">
+              <input class="form-check-input" value="C" type="radio" formControlName="ans"> Anser C</label>
+            <div class="col-sm-10">
+              <textarea rows="1" type="input" class="form-control form-control-sm" id="ans3" formControlName="ans3"></textarea>
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['ans3'].errors?.messages">{{msg}}</span>
+          </div>
+          <div class="form-group row mb-3">
+            <label for="ans4" class="col-sm-2 col-form-label col-form-label-sm">
+              <input class="form-check-input" value="D" type="radio" formControlName="ans"> Anser D</label>
+            <div class="col-sm-10">
+              <textarea rows="1" type="input" class="form-control form-control-sm" id="ans4" formControlName="ans4"></textarea>
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['ans4'].errors?.messages">{{msg}}</span>
+          </div>
+          <div class="form-group row mb-3">
+            <label for="explanation" class="col-sm-2 col-form-label col-form-label-sm">Explanation</label>
+            <div class="col-sm-10">
+              <textarea rows="1" type="input" class="form-control form-control-sm" id="explanation" formControlName="explanation"></textarea>
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['explanation'].errors?.messages">{{msg}}</span>
+          </div>
+          <div class="form-group row">
+            <label for="duration" class="col-sm-2 col-form-label col-form-label-sm">Duration</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control form-control-sm" id="duration" formControlName="duration">
+            </div>
+            <span class="col-sm-12 alert-danger"
+              *ngFor="let msg of fQuestion.controls['duration'].errors?.messages">{{msg}}</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
