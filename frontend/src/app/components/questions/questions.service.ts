@@ -6,44 +6,44 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { handleErrors } from 'src/app/utils/form.utils';
 
+const rootUrl = 'questions';
+
 @Injectable()
 export class QuestionsService {
-  baseUrl = 'questions';
-
   constructor(private http: HttpClient) {}
 
   /** get all question from database */
-  getQuestions(): Observable<Question[]> {
-    return this.http.get<Question[]>(this.baseUrl);
+  getQuestions(categoryId: string): Observable<Question[]> {
+    return this.http.get<Question[]>(rootUrl + '/category/' + categoryId);
   }
 
   /** get all question from database */
   getQuestion(id: string | undefined): Observable<Question> {
-    return this.http.get<Question>(this.baseUrl + '/' + id);
+    return this.http.get<Question>(rootUrl + '/' + id);
   }
 
   /** insert question to database */
-  insert(form: FormGroup): Observable<unknown> {
+  insert(form: FormGroup): Observable<Question> {
     return this.http
-      .post<Question>(this.baseUrl, form.value)
+      .post<Question>(rootUrl, form.value)
       .pipe(catchError(handleErrors(form)));
   }
 
   /** insert question to database */
-  update(form: FormGroup): Observable<unknown> {
+  update(form: FormGroup): Observable<Question> {
     return this.http
-      .put<Question>(this.baseUrl, form.value)
+      .put<Question>(rootUrl, form.value)
       .pipe(catchError(handleErrors(form)));
   }
 
   /** delete question from database */
   delete(id: string | undefined): Observable<Question> {
-    return this.http.delete<Question>(this.baseUrl + '/' + id);
+    return this.http.delete<Question>(rootUrl + '/' + id);
   }
 
-  upload(file: File) {
+  upload(file: File): Observable<Question> {
     const formData: FormData = new FormData();
     formData.append('file', file);
-    return this.http.post<Question>(this.baseUrl + '/upload', formData);
+    return this.http.post<Question>(rootUrl + '/upload', formData);
   }
 }

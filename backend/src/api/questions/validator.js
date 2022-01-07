@@ -1,7 +1,7 @@
 const validator = require("../../utils/validator.utils");
 
 const insert = validator({
-  categories: {
+  categoryId: {
     notEmpty: {
       errorMessage: "Categories cannot be empty",
       bail: true,
@@ -52,7 +52,7 @@ const update = validator({
       bail: true,
     },
   },
-  categories: {
+  categoryId: {
     notEmpty: {
       errorMessage: "Categories cannot be empty",
       bail: true,

@@ -4,9 +4,10 @@ const Users = db.Users;
 const log = require("log4js").getLogger();
 require("dotenv").config();
 
-exports.login = async (req, res, next) => {
+exports.login = async(req, res, next) => {
   log.debug(`[START] login.authenticate`);
   const data = await Users.findOne({ username: req.body.username })
+    .lean()
     .exec()
     .catch();
   db.Logs(data);
@@ -27,15 +28,16 @@ exports.login = async (req, res, next) => {
       signed: true,
       maxAge: 3600000,
     });
-    res.json({ username: data.username });
+    data.password = "";
+    res.send(data);
   } else {
     res.status(400).json({ password: "Password is incorrect" });
   }
   log.debug(`[END] login.authenticate`);
 };
 
-exports.authorization = async (req, res, next) => {
+exports.authorization = async(req, res, next) => {
   log.debug(`[START] login.authorization`);
-  res.status(200).json("success");
+  res.status(200).send(req.user);
   log.debug(`[END] login.authorization`);
 };

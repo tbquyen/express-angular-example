@@ -1,4 +1,8 @@
+import { Role } from './components/users/user.model';
+import { QuizResultComponent } from './components/quiz-result/quiz-result.component';
+import { QuizInfoComponent } from './components/quiz-info/quiz-info.component';
 import { QuizComponent } from './components/quiz/quiz.component';
+import { ErrorComponent } from './components/error/error.component';
 import {
   LoginGuardService,
   AuthGuardService,
@@ -9,9 +13,9 @@ import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from './components/users/users.component';
-import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { PasswordComponent } from './components/password/password.component';
 import { QuestionsComponent } from './components/questions/questions.component';
+import { CategoriesComponent } from './components/categories/categories.component';
 
 const routes: Routes = [
   {
@@ -22,10 +26,49 @@ const routes: Routes = [
   { path: 'password', component: PasswordComponent },
   { path: 'password/:username', component: PasswordComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuardService] },
-  { path: 'users', component: UsersComponent, canActivate: [AuthGuardService] },
-  { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuardService] },
-  { path: 'quiz', component: QuizComponent, canActivate: [AuthGuardService] },
-  { path: '**', component: PagenotfoundComponent },
+  {
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: [Role.ADMIN] },
+  },
+  {
+    path: 'categories',
+    component: CategoriesComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: [Role.ADMIN, Role.MENTOR] },
+  },
+  {
+    path: 'questions',
+    component: QuestionsComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: [Role.ADMIN, Role.MENTOR] },
+  },
+  {
+    path: 'questions/:id',
+    component: QuestionsComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: [Role.ADMIN, Role.MENTOR] },
+  },
+  {
+    path: 'quiz',
+    component: QuizComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: [Role.ADMIN, Role.MENTOR, Role.MEMBER] },
+  },
+  {
+    path: 'quiz/:id/:index',
+    component: QuizInfoComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: [Role.ADMIN, Role.MENTOR, Role.MEMBER] },
+  },
+  {
+    path: 'result/:id',
+    component: QuizResultComponent,
+    canActivate: [AuthGuardService],
+    data: { roles: [Role.ADMIN, Role.MENTOR, Role.MEMBER] },
+  },
+  { path: '**', data: { statusCodes: 404 }, component: ErrorComponent },
 ];
 
 @NgModule({

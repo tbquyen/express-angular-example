@@ -7,7 +7,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage })
 const router = express.Router();
 
-router.get("/", controller.getQuestions);
+router.get("/category/:id", controller.getQuestions);
 router.get("/:id", controller.getQuestion);
 router.post("/", validator.insert, controller.insert);
 router.post("/upload", upload.single("file"), controller.upload);

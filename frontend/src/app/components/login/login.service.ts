@@ -1,8 +1,10 @@
+import { User } from './../users/user.model';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { handleErrors } from '../../utils/form.utils';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class LoginService {
@@ -18,7 +20,7 @@ export class LoginService {
   }
 
   /** Authorization login */
-  authenticated() {
-    return this.http.get(this.loginUrl);
+  authenticated(): Observable<User> {
+    return this.http.get<User>(this.loginUrl);
   }
 }

@@ -1,5 +1,5 @@
 import { LoginService } from './login.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -15,7 +15,10 @@ export class LoginComponent implements OnInit {
     password: new FormControl(),
   });
 
-  constructor(private LoginService: LoginService, private router: Router) {}
+  constructor(
+    private LoginService: LoginService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {}
 

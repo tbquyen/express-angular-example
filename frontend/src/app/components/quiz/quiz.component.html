@@ -1,31 +1,79 @@
-<form autocomplete="off" [formGroup]="fLogin" (ngSubmit)="onSubmit()">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center col">LOGIN</h5>
-      </div>
-      <div class="modal-body">
-        <div class="form-group row mb-3">
-          <label for="username" class="col-sm-3 col-form-label col-form-label-sm">Username</label>
-          <div class="col-sm-9">
-            <input type="input" class="form-control form-control-sm" id="username" formControlName="username">
-          </div>
-          <span class="col-sm-12 alert-danger"
-            *ngFor="let msg of fLogin.controls['username'].errors?.messages">{{msg}}</span>
+<div class="container mt-3">
+    <table class="table table-sm table-bordered border-primary">
+        <thead class="table-dark">
+            <tr>
+                <th class="dropdown text-center" width="40px">
+                    <i class="bi bi-plus-lg pointer" (click)="showDialogInsert()"></i>
+                </th>
+                <th width="150px">Category</th>
+                <th width="150px">Questions</th>
+                <th width="200px">Time Start</th>
+                <th width="200px">Time End</th>
+                <th colspan="2">Result</th>
+            </tr>
+        </thead>
+        <tbody class="accordion-item" *ngFor="let quiz of quizs; let i = index">
+            <tr class="accordion-header">
+                <th rowspan="7" class="text-center">{{i + 1}}</th>
+                <td>{{quiz.categoryName}}</td>
+                <td>{{quiz.numberQuestion}}</td>
+                <td>{{quiz.timeStart}}</td>
+                <td>{{quiz.timeEnd}}</td>
+                <td>
+                    {{quiz.passed}}/{{quiz.numberQuestion}}
+                    <a *ngIf="!quiz.isFinish" class="float-end" [routerLink]="['/quiz', quiz._id, 1]"><i class="bi bi-arrow-right-square-fill pointer"></i></a>
+                    <a *ngIf="quiz.isFinish" class="float-end" [routerLink]="['/result', quiz._id]"><i class="bi bi-ui-checks"></i></a>
+                </td>
+                <td class="dropdown index text-center">
+                    <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        <li *ngIf="!quiz.timeStart"><button type="button" class="dropdown-item" (click)="showDialogUpdate(quiz._id)"><i
+                    class="bi bi-pen-fill"></i> Update</button></li>
+                        <li><button type="button" class="dropdown-item" (click)="showDialogDelete(quiz._id)"><i
+                    class="bi bi-x-lg"></i> Delete</button></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<button type="button" data-bs-toggle="modal" data-bs-target="#editModal" hidden #openModal></button>
+<form autocomplete="off" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><span></span>Quiz</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal tabindex="-1"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row mb-3">
+                        <label for="category" class="col-sm-3 col-form-label col-form-label-sm">Category</label>
+                        <div class="col-sm-9">
+                            <select id="category" class="form-select form-select-sm" formControlName="categoryId">
+                    <option *ngFor="let category of categories; let i = index" 
+                      [value]="category._id">{{category.name}}</option>
+                  </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="numberQuestion" class="col-sm-3 col-form-label col-form-label-sm">Questions</label>
+                        <div class="col-sm-9">
+                            <select id="numberQuestion" class="form-select form-select-sm" formControlName="numberQuestion">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                  </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
-        <div class="form-group row">
-          <label for="password" class="col-sm-3 col-form-label col-form-label-sm">Password</label>
-          <div class="col-sm-9">
-            <input type="password" class="form-control form-control-sm" id="password" formControlName="password">
-          </div>
-          <span class="col-sm-12 alert-danger"
-            *ngFor="let msg of fLogin.controls['password'].errors?.messages">{{msg}}</span>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="reset" class="btn btn-sm btn-secondary">Reset</button>
-        <button type="submit" class="btn btn-sm btn-primary">Login</button>
-      </div>
     </div>
-  </div>
 </form>

@@ -1,6 +1,6 @@
 export interface Question {
-  readonly id: string;
-  categories: string;
+  readonly _id: string;
+  categoryId: string;
   question: string;
   ans: string;
   ans1: string;

@@ -47,11 +47,15 @@ export class AuthGuardService implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
     return this.authService.authenticated().pipe(
-      map(() => {
+      map((user) => {
+        if (route.data.roles && route.data.roles.indexOf(user.role) === -1) {
+          this.router.navigate(['/403']);
+          return false;
+        }
         return true;
       }),
       catchError((error: HttpErrorResponse) => {
-        if(error.status === 401) {
+        if (error.status === 401) {
           this.router.navigate(['/login']);
         }
         return of(false);

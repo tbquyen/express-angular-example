@@ -1,98 +1,92 @@
 <div class="container mt-3">
-  <table class="table table-sm table-bordered border-primary">
-    <thead class="table-dark">
-      <tr>
-        <th class="index text-center">
-          <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown" aria-expanded="false"></i>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <li><button type="button" class="dropdown-item" (click)="insertUser()">
-                <i class="bi bi-person-plus-fill"></i> New
-              </button></li>
-            <li><button type="button" class="dropdown-item"><i class="bi bi-upload"></i> Upload</button></li>
-          </ul>
-        </th>
-        <th>ID</th>
-        <th>NAME</th>
-        <th>PASSWORD</th>
-        <th colspan="2">ROLE</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users; let i = index">
-        <th class="text-center"> {{i + 1}} </th>
-        <td>{{user.username}}</td>
-        <td>{{user.name}}</td>
-        <td>
-          <span *ngIf="user.expired"><i class="bi bi-exclamation-circle"></i> Password expired</span>
-          <span *ngIf="!user.expired"><i class="bi bi-check-all"></i> Success</span>
-        </td>
-        <td>{{user.role}}</td>
-        <td class="index text-center">
-          <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown" aria-expanded="false"></i>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <li><button type="button" class="dropdown-item" (click)="updateUser(user.id)"><i
+    <table class="table table-sm table-bordered border-primary">
+        <thead class="table-dark">
+            <tr>
+                <th class="index text-center">
+                    <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        <li><button type="button" class="dropdown-item" (click)="showDialogInsert()"><i class="bi bi-person-plus-fill"></i> New</button></li>
+                        <li><button type="button" class="dropdown-item"><i class="bi bi-upload"></i> Upload</button></li>
+                    </ul>
+                </th>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>PASSWORD</th>
+                <th colspan="2">ROLE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; let i = index">
+                <th class="text-center"> {{i + 1}} </th>
+                <td>{{user.username}}</td>
+                <td>{{user.name}}</td>
+                <td>
+                    <span *ngIf="user.expired"><i class="bi bi-exclamation-circle"></i> Password expired</span>
+                    <span *ngIf="!user.expired"><i class="bi bi-check-all"></i> Success</span>
+                </td>
+                <td>{{user.role}}</td>
+                <td class="index text-center">
+                    <i class="bi bi-three-dots pointer" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        <li><button type="button" class="dropdown-item" (click)="showDialogUpdate(user._id)"><i
                   class="bi bi-person-fill"></i> Update</button></li>
-            <li><button type="button" class="dropdown-item" (click)="deleteUser(user.id)"><i
+                        <li><button type="button" class="dropdown-item" (click)="showDialogDelete(user._id)"><i
                   class="bi bi-person-x-fill"></i> Delete</button></li>
-          </ul>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- Modal -->
 <button type="button" data-bs-toggle="modal" data-bs-target="#editModal" hidden #openModal></button>
 <form autocomplete="off" [formGroup]="fUser" (ngSubmit)="onSubmit()">
-  <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Users</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal
-            tabindex="-1"></button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group row mb-3">
-            <label for="username" class="col-sm-3 col-form-label col-form-label-sm">Id</label>
-            <div class="col-sm-9">
-              <input type="input" class="form-control form-control-sm" id="username" formControlName="username">
-            </div>
-            <span class="col-sm-12 alert-danger"
-              *ngFor="let msg of fUser.controls['username'].errors?.messages">{{msg}}</span>
-          </div>
-          <div class="form-group row mb-3">
-            <label for="name" class="col-sm-3 col-form-label col-form-label-sm">Name</label>
-            <div class="col-sm-9">
-              <input type="input" class="form-control form-control-sm" id="name" formControlName="name">
-            </div>
-            <span class="col-sm-12 alert-danger"
-              *ngFor="let msg of fUser.controls['name'].errors?.messages">{{msg}}</span>
-          </div>
-          <div class="form-group row mb-3" *ngIf="!fUser.controls['id'].value">
-            <label for="password" class="col-sm-3 col-form-label col-form-label-sm">Password</label>
-            <div class="col-sm-9">
-              <input type="input" class="form-control form-control-sm" id="password" formControlName="password">
-            </div>
-            <span class="col-sm-12 alert-danger"
-              *ngFor="let msg of fUser.controls['password'].errors?.messages">{{msg}}</span>
-          </div>
-          <div class="form-group row">
-            <label for="role" class="col-sm-3 col-form-label col-form-label-sm">Role</label>
-            <div class="col-sm-9">
-              <select id="role" class="form-select form-select-sm" formControlName="role">
-                <option value="ADMIN">Admin</option>
-                <option value="MENTOR">Menter</option>
-                <option value="MEMBER">Member</option>
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Users</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal tabindex="-1"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row mb-3">
+                        <label for="username" class="col-sm-3 col-form-label col-form-label-sm">Username</label>
+                        <div class="col-sm-9">
+                            <input type="input" class="form-control form-control-sm" id="username" formControlName="username">
+                        </div>
+                        <span class="col-sm-12 alert-danger" *ngFor="let msg of fUser.controls['username'].errors?.messages">{{msg}}</span>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="name" class="col-sm-3 col-form-label col-form-label-sm">Name</label>
+                        <div class="col-sm-9">
+                            <input type="input" class="form-control form-control-sm" id="name" formControlName="name">
+                        </div>
+                        <span class="col-sm-12 alert-danger" *ngFor="let msg of fUser.controls['name'].errors?.messages">{{msg}}</span>
+                    </div>
+                    <div class="form-group row mb-3" *ngIf="!fUser.controls['id'].value">
+                        <label for="password" class="col-sm-3 col-form-label col-form-label-sm">Password</label>
+                        <div class="col-sm-9">
+                            <input type="input" class="form-control form-control-sm" id="password" formControlName="password">
+                        </div>
+                        <span class="col-sm-12 alert-danger" *ngFor="let msg of fUser.controls['password'].errors?.messages">{{msg}}</span>
+                    </div>
+                    <div class="form-group row">
+                        <label for="role" class="col-sm-3 col-form-label col-form-label-sm">Role</label>
+                        <div class="col-sm-9">
+                            <select id="role" class="form-select form-select-sm" formControlName="role">
+                <option [value]="ADMIN">Admin</option>
+                <option [value]="MENTOR">Menter</option>
+                <option [value]="MEMBER">Member</option>
               </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
 </form>

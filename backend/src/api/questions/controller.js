@@ -5,7 +5,10 @@ require("dotenv").config();
 
 exports.getQuestions = async (req, res, next) => {
   log.debug(`[START] questions.getQuestions`);
-  const questions = await Questions.find().exec().catch(next);
+  const questions = await Questions.find({ categoryId: req.params.id })
+    .lean()
+    .exec()
+    .catch(next);
   res.send(questions);
   log.debug(`[END] questions.getQuestions`);
 };
@@ -13,6 +16,7 @@ exports.getQuestions = async (req, res, next) => {
 exports.getQuestion = async (req, res, next) => {
   log.debug(`[START] questions.getQuestion`);
   const question = await Questions.findOne({ _id: req.params.id })
+    .lean()
     .exec()
     .catch(next);
   res.send(question);
@@ -71,6 +75,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   log.debug(`[START] questions.delete`);
   const data = await Questions.findByIdAndRemove(req.params.id)
+    .lean()
     .exec()
     .catch(next);
   res.send(data);

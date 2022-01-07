@@ -1,0 +1,60 @@
+<div class="modal-dialog modal-lg my-1">
+    <i class="bi bi-x-lg" style="color: red;">Correctly answered</i>&nbsp;
+    <i class="bi bi-check-lg" style="color: green;">Incorrectly answered</i>
+</div>
+<div class="modal-dialog modal-lg" *ngFor="let quizinfo of quiz?.quizInfo; let i = index;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-title">
+            <h5>Question {{i+1}}/{{ quiz?.numberQuestion }} {{ quizinfo?.category?.name }}({{ quizinfo?.question?.duration }}seconds)</h5>
+            <span>{{ quizinfo?.question?.question }}</span>
+            </span>
+        </div>
+        <div class="modal-body">
+            <table [width]="'100%'">
+                <tbody>
+                    <tr>
+                        <td [width]="1">
+                            <i class="bi bi-x-lg" style="color: red;" *ngIf="isIncorrectly(quizinfo, 'A')"></i>
+                            <i class="bi bi-check-lg" style="color: green;" *ngIf="isCorrectly(quizinfo, 'A')"></i>
+                            <i class="bi bi-check-lg" style="visibility: collapse;" *ngIf="!quizinfo?.answer"></i>
+                        </td>
+                        <td><label class="form-check-label">{{ quizinfo?.question?.ans1 }}</label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="bi bi-x-lg" style="color: red;" *ngIf="isIncorrectly(quizinfo, 'B')"></i>
+                            <i class="bi bi-check-lg" style="color: green;" *ngIf="isCorrectly(quizinfo, 'B')"></i>
+                            <i class="bi bi-check-lg" style="visibility: collapse;" *ngIf="!quizinfo?.answer"></i>
+                        </td>
+                        <td><label class="form-check-label">{{ quizinfo?.question?.ans2 }}</label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="bi bi-x-lg" style="color: red;" *ngIf="isIncorrectly(quizinfo, 'C')"></i>
+                            <i class="bi bi-check-lg" style="color: green;" *ngIf="isCorrectly(quizinfo, 'C')"></i>
+                            <i class="bi bi-check-lg" style="visibility: collapse;" *ngIf="!quizinfo?.answer"></i>
+                        </td>
+                        <td><label class="form-check-label">{{ quizinfo?.question?.ans3 }}</label></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="bi bi-x-lg" style="color: red;" *ngIf="isIncorrectly(quizinfo, 'D')"></i>
+                            <i class="bi bi-check-lg" style="color: green;" *ngIf="isCorrectly(quizinfo, 'D')"></i>
+                            <i class="bi bi-check-lg" style="visibility: collapse;" *ngIf="!quizinfo?.answer"></i>
+                        </td>
+                        <td><label class="form-check-label">{{ quizinfo?.question?.ans4 }}</label></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="alert alert-warning alert-dismissible" *ngIf="quizinfo?.question?.explanation">
+                        <td colspan="2"><span><i class="bi bi-exclamation-circle"></i> {{ quizinfo?.question?.explanation }}</span></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="modal-footer" style="display: inline;">
+            Points: {{getPoint(quizinfo)}}
+        </div>
+    </div>
+</div>

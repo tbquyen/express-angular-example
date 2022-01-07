@@ -1,7 +1,7 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { UserService } from './users.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { User } from './user.model';
+import { User, Role } from './user.model';
 
 @Component({
   selector: 'app-users',
@@ -10,6 +10,10 @@ import { User } from './user.model';
   providers: [UserService],
 })
 export class UsersComponent implements OnInit {
+  readonly ADMIN = Role.ADMIN;
+  readonly MENTOR = Role.MENTOR;
+  readonly MEMBER = Role.MEMBER;
+
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
   @ViewChild('openModal') openModal: ElementRef | undefined;
 
@@ -29,7 +33,7 @@ export class UsersComponent implements OnInit {
     this.userService.getUsers().subscribe((users) => (this.users = users));
   }
 
-  insertUser() {
+  showDialogInsert() {
     this.fUser.controls['id'].setValue('');
     this.fUser.controls['username'].setValue('');
     this.fUser.controls['password'].setValue('');
@@ -38,9 +42,9 @@ export class UsersComponent implements OnInit {
     this.openModal?.nativeElement.click();
   }
 
-  updateUser(id: string | undefined) {
+  showDialogUpdate(id: string | undefined) {
     this.userService.getUser(id).subscribe((user) => {
-      this.fUser.controls['id'].setValue(user.id);
+      this.fUser.controls['id'].setValue(user._id);
       this.fUser.controls['username'].setValue(user.username);
       this.fUser.controls['name'].setValue(user.name);
       this.fUser.controls['password'].setValue('');
@@ -49,13 +53,13 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  deleteUser(id: string | undefined) {
+  showDialogDelete(id: string | undefined) {
     if (!confirm('Are you sure to delete')) {
       return;
     }
 
     this.userService.delete(id).subscribe((user: any) => {
-      this.users = this.users.filter((e) => e.id !== user.id);
+      this.users = this.users.filter((e) => e._id !== user._id);
     });
   }
 
@@ -68,7 +72,7 @@ export class UsersComponent implements OnInit {
     } else {
       this.userService.update(this.fUser).subscribe((user: any) => {
         this.users.forEach((e) => {
-          if (e.id === user.id) {
+          if (e._id === user._id) {
             Object.assign(e, user);
           }
         });

@@ -3,7 +3,6 @@ import {
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
-  HttpHeaders,
 } from '@angular/common/http';
 
 @Injectable()
