@@ -10,9 +10,7 @@ import * as moment from 'moment';
 
 const rootUrl = 'quiz';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class QuizService {
   constructor(private http: HttpClient) {}
 

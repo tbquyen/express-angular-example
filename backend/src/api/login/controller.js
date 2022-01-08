@@ -36,6 +36,18 @@ exports.login = async(req, res, next) => {
   log.debug(`[END] login.authenticate`);
 };
 
+exports.logout = async(req, res, next) => {
+  log.debug(`[START] login.logout`);
+  res.clearCookie(process.env.JWT_COOKIE, {
+    httpOnly: true,
+    secure: false,
+    signed: true,
+    maxAge: 3600000,
+  });
+  res.status(200).send(req.user);
+  log.debug(`[END] login.logout`);
+};
+
 exports.authorization = async(req, res, next) => {
   log.debug(`[START] login.authorization`);
   res.status(200).send(req.user);

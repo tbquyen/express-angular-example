@@ -11,6 +11,7 @@ import * as moment from 'moment';
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css'],
+  providers: [QuizService, CategoriesService],
 })
 export class QuizComponent implements OnInit {
   @ViewChild('closeModal') closeModal: ElementRef | undefined;
@@ -75,7 +76,7 @@ export class QuizComponent implements OnInit {
       this.service.insert(this.form).subscribe((quiz) => {
         this.service.formatQuiz(quiz, this.categories);
         // this.quizs.push(quiz);
-        this.quizs.splice(0, 0 , quiz);
+        this.quizs.splice(0, 0, quiz);
         this.closeModal?.nativeElement.click();
       });
     } else {

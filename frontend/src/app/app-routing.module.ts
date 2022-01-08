@@ -68,7 +68,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     data: { roles: [Role.ADMIN, Role.MENTOR, Role.MEMBER] },
   },
-  { path: '**', data: { statusCodes: 404 }, component: ErrorComponent },
+  { path: '**', component: ErrorComponent },
 ];
 
 @NgModule({

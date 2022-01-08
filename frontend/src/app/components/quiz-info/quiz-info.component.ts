@@ -9,6 +9,7 @@ import * as moment from 'moment';
   selector: 'app-quiz-info',
   templateUrl: './quiz-info.component.html',
   styleUrls: ['./quiz-info.component.css'],
+  providers: [QuizInfoService],
 })
 export class QuizInfoComponent implements OnInit {
   @ViewChild('progressbar') progressbar: ElementRef | undefined;

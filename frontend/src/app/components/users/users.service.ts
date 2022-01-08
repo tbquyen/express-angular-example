@@ -8,9 +8,7 @@ import { handleErrors } from 'src/app/utils/form.utils';
 
 const rootUrl = 'users';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserService {
   constructor(private http: HttpClient) {}
 

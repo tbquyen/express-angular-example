@@ -10,7 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   selector: 'app-questions',
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.css'],
-  providers: [QuestionsService],
+  providers: [QuestionsService, CategoriesService],
 })
 export class QuestionsComponent implements OnInit {
   @ViewChild('closeModal') closeModal: ElementRef | undefined;

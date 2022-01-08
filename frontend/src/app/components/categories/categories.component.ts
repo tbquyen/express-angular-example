@@ -7,6 +7,7 @@ import { Category } from './category.model';
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
+  providers: [CategoriesService],
 })
 export class CategoriesComponent implements OnInit {
   @ViewChild('closeModal') closeModal: ElementRef | undefined;

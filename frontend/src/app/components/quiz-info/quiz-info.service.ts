@@ -8,9 +8,7 @@ import { handleErrors } from 'src/app/utils/form.utils';
 
 const rootUrl = 'quiz-info';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class QuizInfoService {
   constructor(private http: HttpClient) {}
 

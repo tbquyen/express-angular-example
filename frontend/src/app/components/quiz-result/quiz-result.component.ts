@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-quiz-result',
   templateUrl: './quiz-result.component.html',
   styleUrls: ['./quiz-result.component.css'],
+  providers: [QuizService],
 })
 export class QuizResultComponent implements OnInit {
   public quiz: Quiz | undefined;
@@ -24,7 +25,11 @@ export class QuizResultComponent implements OnInit {
   }
 
   isIncorrectly(quizinfo: QuizInfo, answer: string): boolean {
-    return quizinfo?.answer != null && quizinfo?.answer !== answer && quizinfo?.question?.ans === answer;
+    return (
+      quizinfo?.answer != null &&
+      quizinfo?.answer !== answer &&
+      quizinfo?.question?.ans === answer
+    );
   }
 
   isCorrectly(quizinfo: QuizInfo, answer: string): boolean {

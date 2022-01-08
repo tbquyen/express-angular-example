@@ -16,7 +16,7 @@
                     <a class="nav-link" [routerLink]="['/quiz']" *ngIf="hasRole([ADMIN, MENTOR, MEMBER])" routerLinkActive="active">Quiz</a>
                 </li>
             </ul>
-            <div></div>
+            <div style="color: white; cursor: pointer;"><i class="bi bi-box-arrow-right" *ngIf="hasRole([ADMIN, MENTOR, MEMBER])" (click)="logout()"></i></div>
         </div>
     </div>
 </nav>

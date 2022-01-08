@@ -1,3 +1,4 @@
+import { AppService } from './../../app.service';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { LoginService } from './login.service';
@@ -49,7 +50,10 @@ export class AuthGuardService implements CanActivate, CanActivateChild {
     return this.authService.authenticated().pipe(
       map((user) => {
         if (route.data.roles && route.data.roles.indexOf(user.role) === -1) {
-          this.router.navigate(['/403']);
+          this.router.navigate(['/403'], {
+            skipLocationChange: false,
+            state: { statusCodes: 403 },
+          });
           return false;
         }
         return true;

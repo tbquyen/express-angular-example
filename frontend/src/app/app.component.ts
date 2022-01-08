@@ -1,11 +1,14 @@
-import { User, Role } from './components/users/user.model';
+import { Router } from '@angular/router';
 import { LoginService } from './components/login/login.service';
+import { AppService } from './app.service';
+import { User, Role } from './components/users/user.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  providers: [LoginService],
 })
 export class AppComponent implements OnInit {
   readonly ADMIN = Role.ADMIN;
@@ -14,14 +17,10 @@ export class AppComponent implements OnInit {
 
   public user: User | undefined;
 
-  constructor(private service: LoginService) {}
+  constructor(private app: AppService, private loginService: LoginService) {}
 
   ngOnInit(): void {
-    this.service.authenticated().subscribe((user) => (this.user = user));
-  }
-
-  authenticated(user: any) {
-    console.log(user);
+    this.app.userSubject.subscribe((user) => (this.user = user));
   }
 
   hasRole(roles: string[]): boolean {
@@ -30,5 +29,9 @@ export class AppComponent implements OnInit {
     }
 
     return true;
+  }
+
+  logout(): void {
+    this.loginService.doLogout().subscribe();
   }
 }

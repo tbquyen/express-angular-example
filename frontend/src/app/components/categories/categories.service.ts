@@ -8,9 +8,7 @@ import { handleErrors } from 'src/app/utils/form.utils';
 
 const rootUrl = 'categories';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CategoriesService {
 
   constructor(private http: HttpClient) { }
