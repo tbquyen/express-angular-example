@@ -32,6 +32,11 @@ export class ErrorComponent implements OnInit {
       this.statusCodes = statusCodes;
       this.message = Messages.get(this.statusCodes);
     }
+
+    const message = this.route.getCurrentNavigation()?.extras.state?.message;
+    if (message) {
+      this.message = message;
+    }
   }
 
   ngOnInit(): void {

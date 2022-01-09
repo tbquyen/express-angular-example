@@ -29,7 +29,11 @@ export class ErrorInterceptor implements HttpInterceptor {
           return throwError(err);
         }
 
-        this.router.navigate(['error']);
+        this.router.navigate(['error'], {
+          skipLocationChange: false,
+          state: { statusCodes: err.status, message: err.message },
+        });
+        console.log(err.error);
         return throwError(err);
       })
     );
