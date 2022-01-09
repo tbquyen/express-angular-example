@@ -2,16 +2,14 @@
     <div class="col-md-12">
         <div class="error-template">
             <h1>Oops!</h1>
-            <h2>ERROR {{statusCodes}}</h2>
-            <div class="error-details">{{message}}</div>
+            <h2>ERROR {{ statusCodes }}</h2>
+            <div class="error-details">{{ message }}</div>
             <div class="error-actions">
-                <a class="btn btn-primary btn-lg" [routerLink]="['']"><i class="bi bi-house-door"></i> Take Me Home</a
-        >
-        <a class="btn btn-outline-danger btn-lg" [routerLink]="['']"
-          ><i class="bi bi-envelope"></i> Contact Support
-        </a>
+                <a class="btn btn-primary btn-lg" [routerLink]="['']"><i class="bi bi-house-door"></i> Take Me Home</a>
+                <a class="btn btn-outline-danger btn-lg" [routerLink]="['']"><i class="bi bi-envelope"></i> Contact
+                    Support
+                </a>
             </div>
-            <div>{{error}}</div>
         </div>
     </div>
 </div>
