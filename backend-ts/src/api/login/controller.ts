@@ -20,7 +20,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
   // skip Bcrypt
   if (data && data.password === req.body.password) {
+    log.debug(`Password correct`);
     if (data.expired) {
+      log.debug(`Password expired`);
       res.status(401).json({ password: "Change or reset your password" });
       return;
     }
@@ -38,6 +40,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     res.send(data);
   } else {
+    log.debug(`Password incorrect`);
     res.status(400).json({ password: "Password is incorrect" });
   }
   log.debug(`[END] login.login`);

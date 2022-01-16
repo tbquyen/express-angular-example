@@ -2,7 +2,6 @@
  * Required External Modules and Interfaces
  */
 import * as controller from "./controller";
-import passport from "passport";
 import express from "express";
 import * as validator from "./validator";
 
@@ -14,12 +13,11 @@ const router = express.Router();
 /**
  * Controller Definitions
  */
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  controller.authorization
-);
-router.post("/", validator.login, controller.login);
-router.delete("/", controller.logout);
+
+router.get("/category/:id", controller.getQuestions);
+router.get("/:id", controller.getQuestion);
+router.post("/", validator.insert, controller.insert);
+router.put("/", validator.update, controller.update);
+router.delete("/:id", controller.remove);
 
 export default router;

@@ -14,12 +14,20 @@ const router = express.Router();
 /**
  * Controller Definitions
  */
-router.get(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  controller.authorization
-);
-router.post("/", validator.login, controller.login);
-router.delete("/", controller.logout);
+
+// GET /
+router.get("/", controller.getUsers);
+
+// GET by id /
+router.get("/:id", controller.getUser);
+
+// POST /
+router.post("/", validator.insert, controller.insert);
+
+// PUT /
+router.put("/", validator.update, controller.update);
+
+// DELETE /
+router.delete("/:id", controller.remove);
 
 export default router;

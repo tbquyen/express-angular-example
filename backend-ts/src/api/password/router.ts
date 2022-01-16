@@ -1,8 +1,9 @@
 /**
  * Required External Modules and Interfaces
  */
-import * as controller from "./controller";
 import express from "express";
+import * as validator from "./validator";
+import * as controller from "./controller";
 
 /**
  * Router Definition
@@ -12,6 +13,6 @@ const router = express.Router();
 /**
  * Controller Definitions
  */
-router.get("/", controller.home);
+router.put("/", validator.changepassword, controller.changepassword);
 
 export default router;
